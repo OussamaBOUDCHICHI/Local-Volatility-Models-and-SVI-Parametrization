@@ -4,6 +4,8 @@
 cd /path/to/SVICalibration
 
 make 
+
+./svi
 ```
 
 
