@@ -51,7 +51,8 @@ double LSQ(const vector<double>& theta,  std::vector<double> &grad, void *my_fun
     double* data = static_cast <double*>(my_func_data);
     //vector <double> W = SVI(theta, lMoneyness);
     double sum = 0;
-    for (int i=0; i < sizeof(data); i++) {
+    int n  = sizeof(&data) / sizeof(&data[0]);
+    for (int i=0; i < n; i++) {
 
         double W = a + b * (rho * (data[i] - m) + sqrt(pow(data[i] - m, 2.) + pow(sigma, 2.))); 
         sum += (W - totalVar[i]) * (W - totalVar[i]);
@@ -146,8 +147,9 @@ int main() {
 
      
     // % Get desired slice, T = T_0
-    lMoneyness = getSlice(x, TT, TT[0]);
-    totalVar   = getSlice(w, TT, TT[0]);
+    double Maturity = TT[0];
+    lMoneyness = getSlice(x, TT, Maturity);
+    totalVar   = getSlice(w, TT, Maturity);
     
     // Initialize Optimizer, algo : COBYLA
     nlopt::opt opt(nlopt::LN_COBYLA, 5);
@@ -203,7 +205,7 @@ int main() {
     out.close();
 
     cout << "\n****************************************************\n";
-    cout << "Solution : ";
+    cout << "Solution, for maturity " << Maturity << " : \n";
     for (double x : theta) cout << x << " " << setprecision(5);
     
 
