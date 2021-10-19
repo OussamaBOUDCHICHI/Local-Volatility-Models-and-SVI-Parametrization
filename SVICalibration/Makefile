@@ -1,5 +1,5 @@
 #
-# TODO : Create project structure
+# TODO : Compile and build
 #
 
 name := svi
